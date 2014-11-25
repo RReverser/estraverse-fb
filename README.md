@@ -1,5 +1,6 @@
 estraverse-fb
 =============
+[![Build Status](https://travis-ci.org/RReverser/estraverse-fb.svg?branch=master)](https://travis-ci.org/RReverser/estraverse-fb)
 
 Drop-in for estraverse that enables traversal over React's JSX using monkey-patching technique.
 
