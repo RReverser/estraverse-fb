@@ -1,6 +1,6 @@
 {
   "name": "estraverse-fb",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Drop-in for estraverse that enables traversal over React's JSX nodes.",
   "main": "estraverse-fb.js",
   "repository": "RReverser/estraverse-fb",
@@ -15,12 +15,13 @@
   "scripts": {
     "test": "mocha"
   },
-  "dependencies": {
-    "estraverse": "^1.5.0"
+  "peerDependencies": {
+    "estraverse": "^1.7.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "esprima-fb": "git+https://github.com/RReverser/esprima-fb.git#fb-harmony",
+    "esprima-fb": "^8001.1001.0-dev-harmony-fb",
+    "estraverse": "^1.7.0",
     "mocha": "^1.20.0"
   }
 }

@@ -1,20 +1,9 @@
 var assert = require('chai').assert;
 var parse = require('esprima-fb').parse;
-var traverse = require('./').traverse;
 
-it('test', function () {
+describe('works', function () {
 	var code = '<namespace:tag textAttr="value" exprAttr={expr}><object.prop>!</object.prop>{}</namespace:tag>';
 	var ast = parse(code);
-
-	var actualKeys = [];
-
-	traverse(ast, {
-		enter: function (node) {
-			if (node.type.slice(0, 3) === 'XJS') {
-				actualKeys.push(node.type);
-			}
-		}
-	});
 
 	var expectedKeys = [
 		'XJSElement',
@@ -44,5 +33,64 @@ it('test', function () {
 		'XJSEmptyExpression'
 	];
 
-	assert.deepEqual(actualKeys, expectedKeys);
+	beforeEach(function () {
+		for (var key in require.cache) {
+			delete require.cache[key];
+		}
+	});
+
+	it('directly from dependency', function () {
+		var traverse = require('./').traverse;
+		var actualKeys = [];
+
+		traverse(ast, {
+			enter: function (node) {
+				if (node.type.slice(0, 3) === 'XJS') {
+					actualKeys.push(node.type);
+				}
+			}
+		});
+
+		assert.deepEqual(actualKeys, expectedKeys);
+	});
+
+	it('in injected mode', function () {
+		require('./');
+		var traverse = require('estraverse').traverse;
+		var actualKeys = [];
+
+		traverse(ast, {
+			enter: function (node) {
+				if (node.type.slice(0, 3) === 'XJS') {
+					actualKeys.push(node.type);
+				}
+			}
+		});
+
+		assert.deepEqual(actualKeys, expectedKeys);
+	});
+
+	it('in single-pass mode', function () {
+		var traverse = require('estraverse').traverse;
+		var keys = require('./keys');
+
+		var actualKeys = [];
+
+		traverse(ast, {
+			enter: function (node) {
+				if (node.type.slice(0, 3) === 'XJS') {
+					actualKeys.push(node.type);
+				}
+			},
+			keys: keys
+		});
+
+		assert.throws(function () {
+			traverse(ast, {
+				enter: function () {}
+			});
+		});
+
+		assert.deepEqual(actualKeys, expectedKeys);
+	});
 });
