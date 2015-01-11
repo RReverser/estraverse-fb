@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 var parse = require('esprima-fb').parse;
 
 describe('works', function () {
-	var code = '<namespace:tag textAttr="value" exprAttr={expr}><object.prop>!</object.prop>{}</namespace:tag>';
+	var code = '<namespace:tag textAttr="value" exprAttr={expr} {...spreadAttr}><object.prop>!</object.prop>{}</namespace:tag>';
 	var ast = parse(code);
 
 	var expectedKeys = [
@@ -16,6 +16,7 @@ describe('works', function () {
 		'XJSAttribute',
 		'XJSIdentifier',
 		'XJSExpressionContainer',
+		'XJSSpreadAttribute',
 		'XJSClosingElement',
 		'XJSNamespacedName',
 		'XJSIdentifier',

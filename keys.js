@@ -8,5 +8,6 @@ module.exports = {
 	XJSClosingElement: ['name'],
 	XJSOpeningElement: ['name', 'attributes'],
 	XJSAttribute: ['name', 'value'],
-	XJSText: null
+	XJSText: null,
+	XJSSpreadAttribute: ['argument']
 };
