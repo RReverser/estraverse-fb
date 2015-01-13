@@ -1,11 +1,29 @@
 var assert = require('chai').assert;
 var parse = require('esprima-fb').parse;
+var originalKeys = require('./keys');
 
 describe('works', function () {
-	var code = '<namespace:tag textAttr="value" exprAttr={expr} {...spreadAttr}><object.prop>!</object.prop>{}</namespace:tag>';
+	var code = ['class MyClass{',
+		'x: number;',
+		'y: number;',
+		'constructor(x: number, y: number){',
+			'this.x = x;',
+			'this.y = y;',
+		'}',
+		'render(){',
+			'return <namespace:tag textAttr="value" exprAttr={expr} {...spreadAttr}><object.prop>!</object.prop>{}</namespace:tag>',
+		'}',
+	'}'].join('\n');
+
 	var ast = parse(code);
 
 	var expectedKeys = [
+		'ClassProperty',
+		'TypeAnnotation',
+		'NumberTypeAnnotation',
+		'ClassProperty',
+		'TypeAnnotation',
+		'NumberTypeAnnotation',
 		'XJSElement',
 		'XJSOpeningElement',
 		'XJSNamespacedName',
@@ -43,10 +61,11 @@ describe('works', function () {
 	it('directly from dependency', function () {
 		var traverse = require('./').traverse;
 		var actualKeys = [];
+		var actualTypeKeys = [];
 
 		traverse(ast, {
 			enter: function (node) {
-				if (node.type.slice(0, 3) === 'XJS') {
+				if (originalKeys[node.type] != null) {
 					actualKeys.push(node.type);
 				}
 			}
@@ -62,7 +81,7 @@ describe('works', function () {
 
 		traverse(ast, {
 			enter: function (node) {
-				if (node.type.slice(0, 3) === 'XJS') {
+				if (originalKeys[node.type] != null) {
 					actualKeys.push(node.type);
 				}
 			}
@@ -79,7 +98,7 @@ describe('works', function () {
 
 		traverse(ast, {
 			enter: function (node) {
-				if (node.type.slice(0, 3) === 'XJS') {
+				if (originalKeys[node.type] != null) {
 					actualKeys.push(node.type);
 				}
 			},
