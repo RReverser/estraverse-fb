@@ -2,7 +2,7 @@ estraverse-fb
 =============
 [![Build Status](https://travis-ci.org/RReverser/estraverse-fb.svg?branch=master)](https://travis-ci.org/RReverser/estraverse-fb)
 
-Drop-in for estraverse that enables traversal over React's JSX using monkey-patching technique.
+Drop-in for estraverse that enables traversal over React's JSX and Flow nodes using monkey-patching technique.
 
 You can use estraverse-fb in two possible ways:
 
