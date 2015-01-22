@@ -1,17 +1,18 @@
-module.exports = {
-	XJSIdentifier: [],
-	XJSNamespacedName: ['namespace', 'name'],
-	XJSMemberExpression: ['object', 'property'],
-	XJSEmptyExpression: [],
-	XJSExpressionContainer: ['expression'],
-	XJSElement: ['openingElement', 'closingElement', 'children'],
-	XJSClosingElement: ['name'],
-	XJSOpeningElement: ['name', 'attributes'],
-	XJSAttribute: ['name', 'value'],
-	XJSText: null,
-	XJSSpreadAttribute: ['argument'],
+var unprefixedKeys = {
+	Identifier: [],
+	NamespacedName: ['namespace', 'name'],
+	MemberExpression: ['object', 'property'],
+	EmptyExpression: [],
+	ExpressionContainer: ['expression'],
+	Element: ['openingElement', 'closingElement', 'children'],
+	ClosingElement: ['name'],
+	OpeningElement: ['name', 'attributes'],
+	Attribute: ['name', 'value'],
+	Text: null,
+	SpreadAttribute: ['argument']
+};
 
-	/* Flow Type Annotations */
+var flowKeys = {
 	Type: [],
 	AnyTypeAnnotation: [],
 	VoidTypeAnnotation: [],
@@ -45,5 +46,12 @@ module.exports = {
 	DeclareFunction: ["id"],
 	DeclareClass: ["id"],
 	DeclareModule: ["id", "body"]
-	/* End: Flow Type Annotations */
 };
+
+for (var key in unprefixedKeys) {
+	exports['XJS' + key] = exports['JSX' + key] = unprefixedKeys[key];
+}
+
+for (var key in flowKeys) {
+	exports[key] = flowKeys[key];
+}
