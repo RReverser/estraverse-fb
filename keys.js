@@ -8,7 +8,7 @@ var unprefixedKeys = {
 	ClosingElement: ['name'],
 	OpeningElement: ['name', 'attributes'],
 	Attribute: ['name', 'value'],
-	Text: null,
+	Text: [],
 	SpreadAttribute: ['argument']
 };
 
